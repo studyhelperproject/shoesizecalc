@@ -90,7 +90,17 @@ This section outlines the detailed development steps to implement the applicatio
 
 A robust testing strategy is crucial for ensuring the quality of the application. This project is set up with a testing environment that includes unit, widget, and integration tests.
 
-### Setup
+### Automated Environment Setup
+
+For automated testing environments (like CI/CD pipelines), the Flutter SDK needs to be installed. The recommended way is to clone the Flutter repository from GitHub:
+
+```bash
+git clone https://github.com/flutter/flutter.git --depth 1 --branch stable
+export PATH="$PWD/flutter/bin:$PATH"
+flutter doctor
+```
+
+### Development Setup
 
 Before running the tests, ensure you have the development dependencies installed:
 
@@ -134,6 +144,7 @@ The necessary dependencies, including `flutter_test` and `integration_test`, are
     ```bash
     flutter test integration_test
     ```
+*   **Note**: Running integration tests requires a configured device or a desktop environment. If you are running in a headless environment, you may need to enable desktop support first by running `flutter create .` in the project root.
 
 ### Running All Tests
 
