@@ -88,24 +88,38 @@ This section outlines the detailed development steps to implement the applicatio
 
 ## Testing
 
-A robust testing strategy is crucial for ensuring the quality of the application.
+A robust testing strategy is crucial for ensuring the quality of the application. This project is set up with a testing environment that includes unit, widget, and integration tests.
+
+### Setup
+
+Before running the tests, ensure you have the development dependencies installed:
+
+```bash
+flutter pub get
+```
+
+The necessary dependencies, including `flutter_test` and `integration_test`, are already included in `pubspec.yaml`.
 
 ### Unit Tests
 
 *   **Goal**: Test individual functions and classes in isolation.
 *   **Location**: `test/` directory.
-*   **Example**: Write a unit test for the `Shape` class to ensure its properties are correctly initialized and updated.
-*   **To run unit tests:**
+*   **Example**: `test/unit_test.dart` contains a simple unit test for a `Shape` class.
+*   **To run all unit and widget tests:**
     ```bash
-    flutter test test/shape_test.dart
+    flutter test
+    ```
+*   **To run a specific unit test file:**
+    ```bash
+    flutter test test/unit_test.dart
     ```
 
 ### Widget Tests
 
 *   **Goal**: Test individual widgets to ensure they render and behave as expected.
 *   **Location**: `test/` directory.
-*   **Example**: Write a widget test to verify that the `DrawingCanvas` widget renders a `CustomPaint` widget.
-*   **To run a widget test:**
+*   **Example**: `test/widget_test.dart` contains a widget test that verifies a circle is drawn on tap.
+*   **To run a specific widget test file:**
     ```bash
     flutter test test/widget_test.dart
     ```
@@ -113,12 +127,9 @@ A robust testing strategy is crucial for ensuring the quality of the application
 ### Integration Tests
 
 *   **Goal**: Test a complete user flow, from drawing a shape to manipulating it.
-*   **Dependencies**: `integration_test` package.
 *   **Location**: `integration_test/` directory.
-*   **Steps**:
-    1.  Add the `integration_test` package to `pubspec.yaml`.
-    2.  Create a test file in `integration_test/app_test.dart`.
-    3.  Write tests that simulate user interactions, like tapping to draw and dragging to move a shape.
+*   **Setup**: The integration testing environment requires a test driver, which is located at `test_driver/integration_test.dart`.
+*   **Example**: `integration_test/app_test.dart` contains a simple integration test.
 *   **To run integration tests:**
     ```bash
     flutter test integration_test
@@ -131,3 +142,5 @@ To run all unit and widget tests in the project, simply run:
 ```bash
 flutter test
 ```
+
+To run all tests, including integration tests, you can run the commands for each type of test sequentially.
