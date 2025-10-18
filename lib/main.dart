@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'shape.dart';
+import 'shape_painter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,6 +29,8 @@ class DrawingCanvas extends StatefulWidget {
 }
 
 class _DrawingCanvasState extends State<DrawingCanvas> {
+  List<Shape> shapes = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,23 +38,21 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
         title: const Text('Drawing Canvas'),
       ),
       body: GestureDetector(
+        onPanStart: (details) {
+          setState(() {
+            shapes.add(Shape(points: [details.localPosition]));
+          });
+        },
+        onPanUpdate: (details) {
+          setState(() {
+            shapes.last.points.add(details.localPosition);
+          });
+        },
         child: CustomPaint(
-          painter: ShapePainter(),
+          painter: ShapePainter(shapes: shapes),
           child: Container(),
         ),
       ),
     );
-  }
-}
-
-class ShapePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    // Drawing logic will be added here
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
   }
 }
