@@ -11,13 +11,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:drawing_app/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Canvas setup test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('Canvas will be here.'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that our canvas is set up correctly.
+    final gestureDetectorFinder = find.byType(GestureDetector);
+    expect(gestureDetectorFinder, findsOneWidget);
 
+    final customPaintFinder = find.descendant(
+      of: gestureDetectorFinder,
+      matching: find.byType(CustomPaint),
+    );
+    expect(customPaintFinder, findsOneWidget);
   });
 }

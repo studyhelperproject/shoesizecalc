@@ -33,9 +33,24 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
       appBar: AppBar(
         title: const Text('Drawing Canvas'),
       ),
-      body: const Center(
-        child: Text('Canvas will be here.'),
+      body: GestureDetector(
+        child: CustomPaint(
+          painter: ShapePainter(),
+          child: Container(),
+        ),
       ),
     );
+  }
+}
+
+class ShapePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    // Drawing logic will be added here
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }
