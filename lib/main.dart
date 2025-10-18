@@ -69,6 +69,7 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
         onPanUpdate: _onPanUpdate,
         onPanEnd: _onPanEnd,
         child: CustomPaint(
+          key: const Key('drawing_canvas'),
           painter: ShapePainter(shapes: _shapes),
           child: Container(),
         ),

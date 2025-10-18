@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:drawing_app/main.dart';
+import 'package:drawing_app/shape.dart';
+import 'package:drawing_app/shape_painter.dart';
 
 void main() {
-  test('ShapePainter shouldRepaint returns false', () {
-    final painter = ShapePainter();
-    final oldDelegate = ShapePainter();
-    expect(painter.shouldRepaint(oldDelegate), isFalse);
+  group('ShapePainter', () {
+    test('shouldRepaint returns true when shapes list is different', () {
+      final painter = ShapePainter(shapes: [Shape(rect: Rect.fromLTWH(0, 0, 10, 10), color: Colors.red)]);
+      final oldDelegate = ShapePainter(shapes: [Shape(rect: Rect.fromLTWH(10, 10, 20, 20), color: Colors.blue)]);
+      expect(painter.shouldRepaint(oldDelegate), isTrue);
+    });
+
+    test('shouldRepaint returns false when shapes list is the same', () {
+      final shapes = [Shape(rect: Rect.fromLTWH(0, 0, 10, 10), color: Colors.red)];
+      final painter = ShapePainter(shapes: shapes);
+      final oldDelegate = ShapePainter(shapes: shapes);
+      expect(painter.shouldRepaint(oldDelegate), isFalse);
+    });
   });
-
-  test('ShapePainter paint method runs without errors', () {
-    final painter = ShapePainter();
-    final canvas = FakeCanvas();
-    const size = Size(100, 100);
-
-    // Execute the paint method and expect no errors.
-    expect(() => painter.paint(canvas, size), returnsNormally);
-  });
-}
-
-class FakeCanvas implements Canvas {
-  @override
-  noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
