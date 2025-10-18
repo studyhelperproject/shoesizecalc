@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-
-class Circle {
-  final Offset center;
-  final double radius;
-
-  Circle({required this.center, required this.radius});
-}
+import './shape.dart';
+import './shape_painter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,12 +29,33 @@ class DrawingCanvas extends StatefulWidget {
 }
 
 class _DrawingCanvasState extends State<DrawingCanvas> {
-  final List<Circle> _circles = [];
+  final List<Shape> _shapes = [];
+  Offset? _startPoint;
 
-  void _addCircle(Offset position) {
+  void _onPanStart(DragStartDetails details) {
+    _startPoint = details.localPosition;
+    final newShape = Shape(
+      rect: Rect.fromPoints(_startPoint!, _startPoint!),
+      color: Colors.blue,
+    );
     setState(() {
-      _circles.add(Circle(center: position, radius: 25));
+      _shapes.add(newShape);
     });
+  }
+
+  void _onPanUpdate(DragUpdateDetails details) {
+    if (_startPoint == null) return;
+    setState(() {
+      final lastShapeIndex = _shapes.length - 1;
+      _shapes[lastShapeIndex] = Shape(
+        rect: Rect.fromPoints(_startPoint!, details.localPosition),
+        color: _shapes[lastShapeIndex].color,
+      );
+    });
+  }
+
+  void _onPanEnd(DragEndDetails details) {
+    _startPoint = null;
   }
 
   @override
@@ -49,34 +65,14 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
         title: const Text('Drawing Canvas'),
       ),
       body: GestureDetector(
-        onTapUp: (details) => _addCircle(details.localPosition),
+        onPanStart: _onPanStart,
+        onPanUpdate: _onPanUpdate,
+        onPanEnd: _onPanEnd,
         child: CustomPaint(
-          painter: ShapePainter(circles: _circles),
+          painter: ShapePainter(shapes: _shapes),
           child: Container(),
         ),
       ),
     );
-  }
-}
-
-class ShapePainter extends CustomPainter {
-  final List<Circle> circles;
-
-  ShapePainter({required this.circles});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.blue
-      ..style = PaintingStyle.fill;
-
-    for (final circle in circles) {
-      canvas.drawCircle(circle.center, circle.radius, paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant ShapePainter oldDelegate) {
-    return oldDelegate.circles != circles;
   }
 }
