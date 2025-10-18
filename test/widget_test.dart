@@ -11,18 +11,21 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:drawing_app/main.dart';
 
 void main() {
-  testWidgets('Canvas setup test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets('Drawing a circle on tap test', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our canvas is set up correctly.
-    final gestureDetectorFinder = find.byType(GestureDetector);
-    expect(gestureDetectorFinder, findsOneWidget);
+    // Verify that initially there are no circles drawn.
+    final painter = tester.widget<CustomPaint>(find.byType(CustomPaint)).painter as ShapePainter;
+    expect(painter.circles.isEmpty, isTrue);
 
-    final customPaintFinder = find.descendant(
-      of: gestureDetectorFinder,
-      matching: find.byType(CustomPaint),
-    );
-    expect(customPaintFinder, findsOneWidget);
+    // Tap the screen to draw a circle.
+    const tapPosition = Offset(100, 150);
+    await tester.tapAt(tapPosition);
+    await tester.pump();
+
+    // Verify that a circle has been added.
+    final updatedPainter = tester.widget<CustomPaint>(find.byType(CustomPaint)).painter as ShapePainter;
+    expect(updatedPainter.circles.length, 1);
+    expect(updatedPainter.circles.first.center, tapPosition);
   });
 }

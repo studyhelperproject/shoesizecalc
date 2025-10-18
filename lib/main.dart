@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+class Circle {
+  final Offset center;
+  final double radius;
+
+  Circle({required this.center, required this.radius});
+}
+
 void main() {
   runApp(const MyApp());
 }
@@ -27,6 +34,14 @@ class DrawingCanvas extends StatefulWidget {
 }
 
 class _DrawingCanvasState extends State<DrawingCanvas> {
+  final List<Circle> _circles = [];
+
+  void _addCircle(Offset position) {
+    setState(() {
+      _circles.add(Circle(center: position, radius: 25));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,8 +49,9 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
         title: const Text('Drawing Canvas'),
       ),
       body: GestureDetector(
+        onTapUp: (details) => _addCircle(details.localPosition),
         child: CustomPaint(
-          painter: ShapePainter(),
+          painter: ShapePainter(circles: _circles),
           child: Container(),
         ),
       ),
@@ -44,13 +60,23 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
 }
 
 class ShapePainter extends CustomPainter {
+  final List<Circle> circles;
+
+  ShapePainter({required this.circles});
+
   @override
   void paint(Canvas canvas, Size size) {
-    // Drawing logic will be added here
+    final paint = Paint()
+      ..color = Colors.blue
+      ..style = PaintingStyle.fill;
+
+    for (final circle in circles) {
+      canvas.drawCircle(circle.center, circle.radius, paint);
+    }
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
+  bool shouldRepaint(covariant ShapePainter oldDelegate) {
+    return oldDelegate.circles != circles;
   }
 }
