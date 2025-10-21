@@ -1,4 +1,69 @@
-# Dart
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Flutter/Dart/Pub related
+**/doc/api/
 .dart_tool/
-build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
 pubspec.lock
+
+# Generated plugin registrant
+lib/generated_plugin_registrant.dart
+
+# Android related
+**/android/**/gradle-wrapper.jar
+**/android/.gradle
+**/android/captures/
+**/android/local.properties
+**/android/app/src/main/assets/flutter_assets/
+
+# iOS related
+**/ios/**/*.hmap
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/pod_runner.xcconfig
+**/ios/Flutter/Pods/
+**/ios/Flutter/.symlinks/
+**/ios/Pods/
+**/ios/Runner/GeneratedPluginRegistrant.*
+**/ios/Runner.xcworkspace
+**/ios/.generated/
+**/ios/build/
+**/ios/DerivedData/
+**/ios/Pods.lock
+**/.ios/
+
+# macOS related
+**/macos/Flutter/ephemeral
+**/macos/Pods/
+**/macos/Runner.xcworkspace
+**/macos/build/
+.symlinks/
+/macos/DerivedData/
+
+# Linux related
+**/linux/flutter/ephemeral
+
+# Windows related
+**/windows/flutter/ephemeral
